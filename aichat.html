@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<head>
+   
+    <link href = "css/commnn.css" rel = "stylesheet"/>
+    
+    <link href = "css/bootstrap.min.css" rel = "stylesheet"/>
+
+</head>
+<style>
+    .button{
+        margin-left: 400px;
+        width: 100px;
+        color: gold;
+        margin-top: 50px;
+        background-color: darkgreen;
+    }
+    #action{
+        margin: auto;
+        border: solid 2px;
+        margin-top: 70px;
+        border-radius: 10px 10px;
+        border-color: black;
+        width: 300px;
+       
+        height: 45px;
+    
+    
+    }
+    #output{
+        margin-top: 40px;
+        margin: auto;
+        width: 300px;
+        border: solid 2px;
+        border-color: aliceblue;
+    }
+    #frame{
+        margin: auto;
+        margin-top: 100px;
+       
+        width: 800px;
+        height: 200px;
+        border: solid 1px;
+    }
+
+</style>
+<html>
+    <body>
+        <button class = "button" id = "button">click</button>
+        <div class = "words" contenteditable>
+            <p id = "output">Santosh ka mic...</p>
+        </div>
+        <p id = "action" contenteditable></p>
+      
+       <script>
+            
+            let a = document.getElementById("button");
+            let action = document.getElementById("action");
+            let output = document.getElementById("output");
+            let num = 0;
+            a.onclick = function(){
+               
+                num++;
+                
+                function getVoices(){
+                    let voices = speechSynthesis.getVoices();
+                    if(!voices.length){
+                        let utterance = new SpeechSynthesisUtterance(" ");
+                        speechSynthesis.speak(utterance);
+                        voices = speechSynthesis.getVoices();
+                    }
+                    return voices;
+                }
+                function speak(text, voice, rate, pitch, volume){
+                    let speakData = new SpeechSynthesisUtterance();
+                    speakData.volume = volume;
+                    speakData.rate = rate;
+                    speakData.pitch = pitch;
+                    speakData.voice = voice;
+                    speakData.text = text;
+                    speakData.lang = 'hi-IN';
+                    speechSynthesis.speak(speakData);
+                }
+                if('speechSynthesis' in window && num == 1){
+                    let voices = getVoices();
+                    let rate = 1, pitch = -0.1, volume = 2;
+                    let text = "हेलो सर, मैं संतोष आपका डिजिटल असिस्टेंट हूं, आप क्या चाहते हैं";
+                    speak(text, voices[1],rate,pitch,volume);
+                }
+                else{
+                    console.log("error");
+    
+                }
+                if('speechSynthesis' in window && num == num % 1 == 0){
+                    let voices = getVoices();
+                    let rate = 1, pitch = -0.1, volume = 2;
+                    let text = "santosh is listening";
+                    speak(text, voices[1],rate,pitch,volume);
+
+                }
+                
+                setTimeout( ()=>{
+                    var recongnization = new webkitSpeechRecognition();
+                    recongnization.onstart =() =>{
+                         output.innerHTML = "listening...";
+                    } 
+                    recongnization.onresult = (e) =>{
+
+                        var transcript = e.results[0][0].transcript;
+                        output.innerHTML = transcript;
+                        let array = transcript.split(' ');
+                        let s = array[array.length -1];
+                        
+                        if(transcript == "how are you" || transcript == "how r u"){
+                            
+                            if('speechSynthesis' in window){
+                                let voices = getVoices();
+                                let rate = 1, pitch = -0.1, volume = 2;
+                                let text = " मैं ठीक हूं आपका धन्यवाद";
+                                speak(text, voices[1],rate,pitch,volume);
+                                output.innerHTML = text;
+                            }
+                            else{
+                                console.log("error");
+                
+                            }
+                            
+
+                        }
+
+                        else if(transcript == "what are you doing"||  transcript == "what you do"){
+
+
+
+                            if('speechSynthesis' in window){
+                                let voices = getVoices();
+                                let rate = 1, pitch = -0.1, volume = 1;
+                                let text = "I am speaking with you";
+                                speak(text, voices[1],rate,pitch,volume);
+                                output.innerHTML = text;
+                            }
+                            else{
+                                console.log("error");
+                
+                            }
+
+                        }
+                        else if(transcript == "please sing a song"||  transcript == "sing a song"|| transcript == "sing a song for me"){
+
+                            if('speechSynthesis' in window){
+                                let voices = getVoices();
+                                let rate = 1, pitch = -0.1, volume = 1;
+                                let text = "ok listening here...";
+                                speak(text, voices[1],rate,pitch,volume);
+                                output.innerHTML = text;
+                               
+                                
+                            }
+                            else{
+                                console.log("error");
+                
+                            }
+                            location.href = "https://www.youtube.com/channel/UC-9-kyTW8ZkZNDHQJ6FgpwQ";
+
+                        }
+                        else if(transcript == "I am also fine"){
+
+                            if('speechSynthesis' in window){
+                                let voices = getVoices();
+                                let rate = 1, pitch = -0.1, volume = 1;
+                                let text = "ok what you are doing do you work please don't waste my time";
+                                speak(text, voices[1],rate,pitch,volume);
+                                output.innerHTML = text;
+                                
+                            }
+                            else{
+                                console.log("error");
+                
+                            }
+
+                        }
+                        else if(transcript == "tell me joke"||  transcript == "tell me a joke"){
+
+
+
+                            if('speechSynthesis' in window){
+                                let voices = getVoices();
+                                let rate = 1, pitch = -0.1, volume = 1;
+                                let text = "see your face";
+                                speak(text, voices[1],rate,pitch,volume);
+                                output.innerHTML = text;
+
+                            }
+                            else{
+                                console.log("error");
+                
+                            }
+
+                        }
+                        else if(transcript == "Wikipedia"||  transcript.includes("Wikipedia")|| transcript == "search in Wekipedia"){
+                            let array = transcript.split(' ');
+                            array.pop("Wekipedia");
+                            if(array.includes("in")){
+                                array.pop("in");
+
+
+                            }
+                           
+                            transcript = array;
+                   
+
+                       
+                            location.href = 'https://en.wikipedia.org/wiki/'+transcript+'';
+
+                        }
+                        else if(transcript == "i want to chat in whattsapp"|| transcript == "open WhatsApp"){
+                            if('speechSynthesis' in window){
+                                let voices = getVoices();
+                                let rate = 1, pitch = -0.1, volume = 1;
+                                let text = "ok please give me number and written in this box then say open chats";
+                                speak(text, voices[1],rate,pitch,volume);
+                                output.innerHTML = text;
+
+                            }
+                            else{
+                                console.log("error");
+                
+                            }
+
+                        }
+                        else if(transcript == "open chats"){
+                            
+
+                            let num = document.getElementById("action");
+                            let number = num.innerHTML;
+
+                           
+                            
+                            location.href = 'https://wa.me/'+number+'?text=Hii';
+                            
+                        }
+                     
+                            
+                      
+
+                    }
+                    
+                      
+                      
+                    
+                  
+                    recongnization.start();
+            
+                   
+                            
+                           
+                        
+
+                        
+                        
+                        
+                    
+                  
+
+               
+
+                    
+                },7000);
+              
+                    
+              
+              
+            };
+         
+            
+        </script>
+        
+       
+    </body>
+
+</html>
